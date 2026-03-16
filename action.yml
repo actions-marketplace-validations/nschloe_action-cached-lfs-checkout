@@ -19,6 +19,10 @@ inputs:
     description: "Number of commits to fetch. 0 indicates all history for all tags and branches"
     required: false
     default: 1
+  clean:
+    description: "Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching"
+    required: false
+    default: true
   filter:
     description: >
       Partially clone against a given filter.
@@ -77,6 +81,7 @@ runs:
         token: ${{ inputs.token }}
         submodules: ${{ inputs.submodules }}
         persist-credentials: ${{ inputs.persist-credentials }}
+        clean: ${{ inputs.clean }}
 
     - name: Create LFS file list
       run: |
