@@ -19,6 +19,11 @@ inputs:
     description: "Number of commits to fetch. 0 indicates all history for all tags and branches"
     required: false
     default: 1
+  filter:
+    description: >
+      Partially clone against a given filter.
+      Overrides sparse-checkout if set.
+    default: null
   ref:
     description: >
       The branch, tag or SHA to checkout. When checking out the repository that
@@ -66,6 +71,7 @@ runs:
       uses: actions/checkout@v6
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
+        filter: ${{ inputs.filter }}
         ref: ${{ inputs.ref }}
         repository: ${{ inputs.repository }}
         token: ${{ inputs.token }}
