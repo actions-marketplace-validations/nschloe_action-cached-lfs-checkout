@@ -23,6 +23,11 @@ inputs:
     description: "Whether to execute `git clean -ffdx && git reset --hard HEAD` before fetching"
     required: false
     default: true
+  filter:
+    description: >
+      Partially clone against a given filter.
+      Overrides sparse-checkout if set.
+    default: null
   ref:
     description: >
       The branch, tag or SHA to checkout. When checking out the repository that
@@ -67,9 +72,10 @@ runs:
   using: "composite"
   steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
+        filter: ${{ inputs.filter }}
         ref: ${{ inputs.ref }}
         repository: ${{ inputs.repository }}
         token: ${{ inputs.token }}
@@ -100,7 +106,7 @@ runs:
       shell: bash
 
     - name: Restore LFS cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       id: lfs-cache
       with:
         path: |
